@@ -17,6 +17,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   'ios': {
     'supportsTablet': true,
     'bundleIdentifier': 'com.gersonrocha9.primecoachingapp',
+    'infoPlist': {
+      'ITSAppUsesNonExemptEncryption': false,
+    },
   },
   'android': {
     'adaptiveIcon': {
