@@ -1,18 +1,17 @@
+import { theme } from '@ui/styles/theme'
 import Svg, { Path } from 'react-native-svg'
 
 interface IArrowRightProps {
-  width?: number
-  height?: number
+  size?: number
   color?: string
 }
 
 export function ArrowRightIcon({
-  width = 24,
-  height = 24,
-  color = 'black',
+  size = 32,
+  color = theme.colors.primary[600],
 }: IArrowRightProps) {
   return (
-    <Svg width={width} height={height} viewBox="0 0 24 24" fill="none">
+    <Svg width={size} height={size} viewBox="0 0 32 32" fill="none">
       <Path
         d="M4 12H20M20 12L14 6M20 12L14 18"
         stroke={color}

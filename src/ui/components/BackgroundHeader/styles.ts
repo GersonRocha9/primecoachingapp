@@ -11,12 +11,12 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     right: 32,
   },
-  arrowContainer: {
+  iconContainer: {
     position: 'absolute',
-    bottom: -16,
+    bottom: -32,
     left: 32,
     backgroundColor: theme.colors.primary[50],
-    padding: 16,
+    padding: 24,
     borderRadius: 999,
   },
 })

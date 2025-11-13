@@ -3,6 +3,7 @@ import { ScrollView, View } from 'react-native'
 import { AppText } from '@ui/components/AppText'
 import { BackgroundHeader } from '@ui/components/BackgroundHeader'
 import { Button } from '@ui/components/Button'
+import { UserIcon } from '@ui/icons'
 import { theme } from '@ui/styles/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './styles'
@@ -11,11 +12,11 @@ export function Greetings() {
   return (
     <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
       <ScrollView>
-        <BackgroundHeader />
+        <BackgroundHeader icon={<UserIcon />} />
 
         <View style={styles.content}>
           <View style={styles.textContainer}>
-            <AppText color={theme.colors.gray[900]} size='3xl' weight='medium'>
+            <AppText color={theme.colors.gray[900]} size='5xl' weight='medium'>
               Seja{'\n'}bem-vindo!
             </AppText>
 

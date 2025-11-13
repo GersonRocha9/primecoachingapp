@@ -3,7 +3,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { AppText } from '@ui/components/AppText'
 import { Logo } from '@ui/components/Logo'
-import { ArrowRightIcon } from '@ui/icons'
 import { theme } from '@ui/styles/theme'
 import { version } from '../../../../package.json'
 import backgroundImage from '../../../assets/background.png'
@@ -11,7 +10,7 @@ import { styles } from './styles'
 
 interface IBackgroundHeaderProps {
   showLogo?: boolean
-  showIcon?: boolean
+  icon?: React.ReactElement
   logoSize?: number
   showCopyright?: boolean
   minHeight?: number
@@ -19,7 +18,7 @@ interface IBackgroundHeaderProps {
 
 export function BackgroundHeader({
   showLogo = true,
-  showIcon = true,
+  icon,
   logoSize = 135,
   showCopyright = true,
   minHeight = 410,
@@ -43,9 +42,9 @@ export function BackgroundHeader({
         </View>
       )}
 
-      {showIcon && (
-        <View style={styles.arrowContainer}>
-          <ArrowRightIcon color={theme.colors.primary[600]} />
+      {icon && (
+        <View style={styles.iconContainer}>
+          {icon}
         </View>
       )}
     </ImageBackground>
