@@ -1,26 +1,27 @@
-import { RootStackNavigationProps } from '@app/navigation/RootStack'
 import { AccountsService } from '@app/services/AccountService'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { OnboardingContext } from '.'
 import { onboardingNavigation } from '../OnboardingStack'
 import type { OnboardingSchema } from '../schema'
-import { orderedSteps } from '../steps'
+import { orderedSteps, TOTAL_STEPS } from '../steps'
+import { stepsConfig } from '../stepsConfig'
 
 export function OnboardingProvider({ children }: { children: React.ReactNode }) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
-  const navigation = useNavigation<RootStackNavigationProps>()
   const { getValues } = useFormContext<OnboardingSchema>()
+
+  const currentStepName = orderedSteps[currentStepIndex]
+  const currentStepConfig = stepsConfig[currentStepName]
+  const isFirstStep = currentStepIndex === 0
+  const isLastStep = currentStepIndex === TOTAL_STEPS - 1
 
   const completeOnboarding = useCallback(async () => {
     try {
-      // Get form data
       const formData = getValues()
 
-      // Save onboarding data to user profile
       await AccountsService.updateProfile({
         gender: formData.gender,
         birthDate: formData.birthDate,
@@ -28,18 +29,14 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
         weight: formData.weight,
       })
 
-      // Mark onboarding as complete
       await AsyncStorage.setItem('onboarding_complete', 'true')
 
-      // Navigate to App stack
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'App' }],
-      })
+      // The RootStack will automatically detect the change and navigate to App
+      // No need to manually reset navigation
     } catch (error) {
       console.error('Failed to complete onboarding:', error)
     }
-  }, [navigation, getValues])
+  }, [getValues])
 
   const nextStep = useCallback(() => {
     const nextStepIndex = currentStepIndex + 1
@@ -69,8 +66,13 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     <OnboardingContext.Provider
       value={{
         currentStepIndex,
+        currentStepName,
+        currentStepConfig,
+        totalSteps: TOTAL_STEPS,
         nextStep,
         previousStep,
+        isFirstStep,
+        isLastStep,
       }}
     >
       {children}

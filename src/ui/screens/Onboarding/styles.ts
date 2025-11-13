@@ -21,11 +21,10 @@ export const styles = StyleSheet.create({
   },
   formContainer: {
     marginBottom: 40,
-    gap: 20,
   },
   buttonContainer: {
-    gap: 12,
     width: '100%',
-    flexDirection: 'column',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 })

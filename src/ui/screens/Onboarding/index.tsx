@@ -1,7 +1,6 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 
-import { Gender } from '@app/types/Gender'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { theme } from '@ui/styles/theme'
 import { OnboardingStack } from './OnboardingStack'
@@ -12,10 +11,10 @@ export function Onboarding() {
   const form = useForm({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
-      gender: Gender.MALE,
-      birthDate: new Date(),
-      height: '0',
-      weight: '0',
+      gender: undefined,
+      birthDate: undefined,
+      height: '',
+      weight: '',
     },
   })
 
