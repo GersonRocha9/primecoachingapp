@@ -5,11 +5,16 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack'
 
+import { useAuth } from '@app/contexts/useAuth'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Onboarding } from '@ui/screens/Onboarding'
+import { useEffect, useState } from 'react'
 import { AppStack } from './AppStack'
 import { AuthStack } from './AuthStack'
 
 type RootStackParamList = {
   Auth: undefined
+  Onboarding: undefined
   App: undefined
 }
 
@@ -26,11 +31,31 @@ export type RootStackRouteProps<
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 export function RootStack() {
-  const signedIn = false
+  const { signedIn } = useAuth()
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const checkOnboardingStatus = async () => {
+      try {
+        const onboardingComplete = await AsyncStorage.getItem('onboarding_complete')
+        setHasCompletedOnboarding(onboardingComplete === 'true')
+      } catch {
+        setHasCompletedOnboarding(false)
+      }
+    }
+
+    if (signedIn) {
+      checkOnboardingStatus()
+    }
+  }, [signedIn])
+
+  if (signedIn && hasCompletedOnboarding === null) {
+    return null
+  }
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {!signedIn && (
+      {!signedIn ? (
         <Stack.Screen
           name="Auth"
           component={AuthStack}
@@ -38,9 +63,16 @@ export function RootStack() {
             animationTypeForReplace: 'pop',
           }}
         />
-      )}
-
-      {signedIn && (
+      ) : !hasCompletedOnboarding ? (
+        <Stack.Screen
+          name="Onboarding"
+          component={Onboarding}
+          options={{
+            animationTypeForReplace: 'push',
+            gestureEnabled: false,
+          }}
+        />
+      ) : (
         <Stack.Screen
           name="App"
           component={AppStack}

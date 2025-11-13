@@ -1,14 +1,39 @@
-import { ScrollView, View } from 'react-native'
+import { useState } from 'react'
+import { Alert, ScrollView, View } from 'react-native'
 
+import { useAuth } from '@app/contexts/useAuth'
 import { AppText } from '@ui/components/AppText'
 import { BackgroundHeader } from '@ui/components/BackgroundHeader'
 import { Button } from '@ui/components/Button'
+import { FormGroup } from '@ui/components/FormGroup'
+import { Input } from '@ui/components/Input'
 import { ArrowRightIcon, UserIcon } from '@ui/icons'
 import { theme } from '@ui/styles/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './styles'
 
 export function Login() {
+  const { signIn } = useAuth()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos')
+      return
+    }
+
+    try {
+      setIsLoading(true)
+      await signIn({ email, password })
+    } catch {
+      Alert.alert('Erro', 'Falha ao fazer login. Verifique suas credenciais.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
       <ScrollView>
@@ -21,11 +46,38 @@ export function Login() {
             </AppText>
           </View>
 
+          <View style={styles.formContainer}>
+            <FormGroup>
+              <Input
+                label="E-mail"
+                placeholder="Digite seu e-mail"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Input
+                label="Senha"
+                placeholder="Digite sua senha"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                autoCapitalize="none"
+              />
+            </FormGroup>
+          </View>
+
           <View style={styles.buttonContainer}>
             <Button
               rightIcon={<ArrowRightIcon />}
+              onPress={handleLogin}
+              disabled={isLoading}
             >
-              Entrar
+              {isLoading ? 'Entrando...' : 'Entrar'}
             </Button>
           </View>
         </View>

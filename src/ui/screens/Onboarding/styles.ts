@@ -10,10 +10,18 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 32,
     marginTop: 42,
   },
+  header: {
+    gap: 12,
+    marginBottom: 32,
+  },
   textContainer: {
     width: '100%',
     gap: 24,
     marginBottom: 24,
+  },
+  formContainer: {
+    marginBottom: 40,
+    gap: 20,
   },
   buttonContainer: {
     gap: 12,

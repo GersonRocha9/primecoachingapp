@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native'
 import { AppText } from '@ui/components/AppText'
 import { theme } from '@ui/styles/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { styles } from '../../Home/styles'
+import { styles } from '../styles'
 
 export function WeightStep() {
   return (

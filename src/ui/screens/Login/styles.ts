@@ -15,9 +15,14 @@ export const styles = StyleSheet.create({
     gap: 24,
     marginBottom: 24,
   },
+  formContainer: {
+    marginTop: 32,
+    gap: 16,
+  },
   buttonContainer: {
     gap: 12,
     width: '100%',
     flexDirection: 'column',
+    marginTop: 40,
   },
 })

@@ -1,0 +1,59 @@
+{
+  "users": [
+    {
+      "id": "user_001",
+      "name": "João Silva",
+      "email": "joao@example.com",
+      "password": "senha123",
+      "role": "student",
+      "profileCompleted": true,
+      "onboardingData": {
+        "gender": "MALE",
+        "birthDate": "1990-05-15",
+        "height": "175",
+        "weight": "75"
+      }
+    },
+    {
+      "id": "user_002",
+      "name": "Maria Santos",
+      "email": "maria@example.com",
+      "password": "senha456",
+      "role": "professional",
+      "profileCompleted": true,
+      "onboardingData": {
+        "gender": "FEMALE",
+        "birthDate": "1988-08-22",
+        "height": "165",
+        "weight": "60"
+      }
+    },
+    {
+      "id": "user_003",
+      "name": "Gerson Rocha",
+      "email": "gerson@prime.com",
+      "password": "prime123",
+      "role": "student",
+      "profileCompleted": false,
+      "onboardingData": null
+    },
+    {
+      "id": "user_004",
+      "name": "Ana Oliveira",
+      "email": "ana@example.com",
+      "password": "senha321",
+      "role": "professional",
+      "profileCompleted": false,
+      "onboardingData": null
+    },
+    {
+      "id": "demo",
+      "name": "Demo User",
+      "email": "demo@example.com",
+      "password": "demo",
+      "role": "student",
+      "profileCompleted": false,
+      "onboardingData": null
+    }
+  ]
+}

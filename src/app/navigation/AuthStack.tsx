@@ -7,11 +7,9 @@ import {
 
 import { Greetings } from '@ui/screens/Greetings'
 import { Login } from '@ui/screens/Login'
-import { Onboarding } from '@ui/screens/Onboarding'
 
 type AuthStackParamList = {
   Greetings: undefined
-  Onboarding: undefined
   Login: undefined
 }
 
@@ -36,7 +34,6 @@ export function AuthStack() {
         name="Greetings"
         component={Greetings}
       />
-      <Stack.Screen name="Onboarding" component={Onboarding} />
       <Stack.Screen name="Login" component={Login} />
     </Stack.Navigator>
   )
