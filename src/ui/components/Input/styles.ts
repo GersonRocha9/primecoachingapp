@@ -1,49 +1,53 @@
 import { StyleSheet } from 'react-native'
-import { theme } from '@ui/styles/theme'
+import { getTheme, lightTheme } from '@ui/styles/theme'
 import { createVariants } from '@ui/styles/utils/createVariants'
 
-export const inputStyles = createVariants({
-  base: {
-    backgroundColor: theme.colors.gray[50],
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: 12,
-    borderColor: theme.colors.gray[200],
-    height: 44,
-    paddingHorizontal: 16,
-    color: theme.colors.gray[900],
-    fontSize: 16,
-    fontFamily: theme.fontFamily.sans.regular,
-  },
-  variants: {
-    status: {
-      default: {
-        borderColor: theme.colors.gray[300],
-        backgroundColor: theme.colors.white,
+export const getInputStyles = (isDark: boolean) => {
+  const theme = getTheme(isDark)
+  
+  return createVariants({
+    base: {
+      backgroundColor: isDark ? theme.colors.gray[100] : theme.colors.gray[50],
+      borderStyle: 'solid',
+      borderWidth: 1,
+      borderRadius: 12,
+      borderColor: theme.colors.border,
+      height: 44,
+      paddingHorizontal: 16,
+      color: theme.colors.text,
+      fontSize: 16,
+      fontFamily: theme.fontFamily.sans.regular,
+    },
+    variants: {
+      status: {
+        default: {
+          borderColor: theme.colors.border,
+          backgroundColor: isDark ? theme.colors.gray[100] : theme.colors.surface,
+        },
+        focus: {
+          borderColor: theme.colors.primary[600],
+          backgroundColor: isDark ? theme.colors.gray[100] : theme.colors.surface,
+        },
+        error: {
+          borderColor: theme.colors.red[500],
+          backgroundColor: isDark ? theme.colors.gray[100] : theme.colors.surface,
+        },
       },
-      focus: {
-        borderColor: theme.colors.primary[600],
-        backgroundColor: theme.colors.white,
-      },
-      error: {
-        borderColor: theme.colors.red[500],
-        backgroundColor: theme.colors.white,
+      disabled: {
+        true: {
+          opacity: 0.5,
+        },
+        false: {
+          opacity: 1,
+        },
       },
     },
-    disabled: {
-      true: {
-        opacity: 0.5,
-      },
-      false: {
-        opacity: 1,
-      },
+    defaultVariants: {
+      status: 'default',
+      disabled: 'false',
     },
-  },
-  defaultVariants: {
-    status: 'default',
-    disabled: 'false',
-  },
-})
+  })
+}
 
 export const styles = StyleSheet.create({
   inputContainer: {
@@ -58,9 +62,8 @@ export const styles = StyleSheet.create({
     borderWidth: 0,
     height: 44,
     paddingHorizontal: 0,
-    color: theme.colors.gray[900],
     fontSize: 16,
-    fontFamily: theme.fontFamily.sans.regular,
+    fontFamily: lightTheme.fontFamily.sans.regular,
   },
   iconContainer: {
     padding: 4,

@@ -1,11 +1,12 @@
 import { FormProvider, useForm } from 'react-hook-form'
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native'
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback, View } from 'react-native'
 import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { useTheme } from '@app/contexts/useTheme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BackgroundHeader } from '@ui/components/BackgroundHeader'
-import { theme } from '@ui/styles/theme'
+import { getTheme } from '@ui/styles/theme'
 import { OnboardingProvider } from './context/OnboardingProvider'
 import { useOnboarding } from './context/useOnboarding'
 import { onboardingSchema, type OnboardingSchema } from './schema'
@@ -18,6 +19,8 @@ import { styles } from './styles'
 
 function OnboardingContent() {
   const { currentStepIndex, currentStepConfig } = useOnboarding()
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
 
   const renderStep = () => {
     switch (currentStepIndex) {
@@ -37,30 +40,42 @@ function OnboardingContent() {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]} edges={['bottom', 'left', 'right']}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <BackgroundHeader icon={currentStepConfig.icon} />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={{ flex: 1 }}>
+              <BackgroundHeader icon={currentStepConfig.icon} />
 
-          <View style={styles.content}>
-            <Animated.View
-              key={currentStepIndex}
-              entering={FadeInRight.duration(400)}
-              exiting={FadeOutLeft.duration(400)}
-            >
-              {renderStep()}
-            </Animated.View>
-          </View>
+              <View style={styles.content}>
+                <Animated.View
+                  key={currentStepIndex}
+                  entering={FadeInRight.duration(400)}
+                  exiting={FadeOutLeft.duration(400)}
+                >
+                  {renderStep()}
+                </Animated.View>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
 
-export function Onboarding() {
+function OnboardingWrapper() {
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
+
   const form = useForm<OnboardingSchema>({
     resolver: zodResolver(onboardingSchema as any),
     defaultValues: {
@@ -74,10 +89,14 @@ export function Onboarding() {
   return (
     <FormProvider {...form}>
       <OnboardingProvider>
-        <View style={{ flex: 1, backgroundColor: theme.colors.white }}>
+        <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
           <OnboardingContent />
         </View>
       </OnboardingProvider>
     </FormProvider>
   )
+}
+
+export function Onboarding() {
+  return <OnboardingWrapper />
 }

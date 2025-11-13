@@ -1,11 +1,12 @@
 import { Controller, useFormContext } from 'react-hook-form'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 
+import { useTheme } from '@app/contexts/useTheme'
 import Feather from '@expo/vector-icons/Feather'
 import { AppText } from '@ui/components/AppText'
 import { Button } from '@ui/components/Button'
 import { GenderSelector } from '@ui/components/GenderSelector'
-import { theme } from '@ui/styles/theme'
+import { getTheme } from '@ui/styles/theme'
 import { useOnboarding } from '../context/useOnboarding'
 import type { OnboardingSchema } from '../schema'
 import { styles } from '../styles'
@@ -13,6 +14,8 @@ import { styles } from '../styles'
 export function GenderStep() {
   const { control, watch } = useFormContext<OnboardingSchema>()
   const { nextStep, previousStep, currentStepConfig, isFirstStep } = useOnboarding()
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
   const selectedGender = watch('gender')
 
   return (
@@ -21,11 +24,11 @@ export function GenderStep() {
         style={styles.header}
         entering={FadeInDown.delay(200).duration(600).damping(15)}
       >
-        <AppText color={theme.colors.gray[900]} size='2xl' weight='medium'>
+        <AppText color={theme.colors.text} size='2xl' weight='medium'>
           {currentStepConfig.title}
         </AppText>
         {currentStepConfig.subtitle && (
-          <AppText color={theme.colors.gray[600]} size='sm'>
+          <AppText color={theme.colors.textSecondary} size='sm'>
             {currentStepConfig.subtitle}
           </AppText>
         )}
@@ -55,16 +58,16 @@ export function GenderStep() {
           <Button
             variant="ghost"
             onPress={previousStep}
-            textColor={theme.colors.gray[600]}
+            textColor={theme.colors.textSecondary}
           >
             Voltar
           </Button>
         )}
         <Button
-          rightIcon={<Feather name="arrow-right" color={theme.colors.white} size={24} />}
+          rightIcon={<Feather name="arrow-right" color={isDark ? theme.colors.gray[900] : theme.colors.white} size={24} />}
           onPress={nextStep}
           disabled={!selectedGender}
-          textColor={theme.colors.white}
+          textColor={isDark ? theme.colors.gray[900] : theme.colors.white}
         >
           Avançar
         </Button>

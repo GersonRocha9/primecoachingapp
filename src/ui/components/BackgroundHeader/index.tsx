@@ -3,9 +3,10 @@ import { ImageBackground, View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import { useTheme } from '@app/contexts/useTheme'
 import { AppText } from '@ui/components/AppText'
 import { Logo } from '@ui/components/Logo'
-import { theme } from '@ui/styles/theme'
+import { getTheme } from '@ui/styles/theme'
 
 import { version } from '../../../../package.json'
 import backgroundImage from '../../../assets/background.png'
@@ -32,6 +33,8 @@ export function BackgroundHeader({
 }: IBackgroundHeaderProps) {
   const { top } = useSafeAreaInsets()
   const actualYear = new Date().getFullYear()
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
 
   const translateY = useSharedValue(animated ? 600 : 0)
 
@@ -64,7 +67,7 @@ export function BackgroundHeader({
       )}
 
       {icon && (
-        <View style={styles.iconContainer}>
+        <View style={[styles.iconContainer, { backgroundColor: isDark ? theme.colors.gray[100] : theme.colors.primary[50] }]}>
           {icon}
         </View>
       )}

@@ -1,7 +1,8 @@
 import { Pressable, StyleSheet, View } from 'react-native'
 
 import { Gender } from '@app/types/Gender'
-import { theme } from '@ui/styles/theme'
+import { useTheme } from '@app/contexts/useTheme'
+import { getTheme } from '@ui/styles/theme'
 import { AppText } from './AppText'
 
 interface IGenderSelectorProps {
@@ -10,33 +11,38 @@ interface IGenderSelectorProps {
 }
 
 export function GenderSelector({ value, onChange }: IGenderSelectorProps) {
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
+  
+  const getOptionStyle = (isSelected: boolean) => [
+    styles.option,
+    { 
+      backgroundColor: isSelected ? theme.colors.primary[600] : (isDark ? theme.colors.gray[100] : theme.colors.surface),
+      borderColor: isSelected ? theme.colors.primary[600] : theme.colors.border,
+    },
+  ]
+  
   return (
     <View style={styles.container}>
       <Pressable
-        style={[
-          styles.option,
-          value === Gender.FEMALE && styles.optionSelected,
-        ]}
+        style={getOptionStyle(value === Gender.FEMALE)}
         onPress={() => onChange(Gender.FEMALE)}
       >
         <AppText
           weight="medium"
-          color={value === Gender.FEMALE ? theme.colors.white : theme.colors.gray[700]}
+          color={value === Gender.FEMALE ? theme.colors.white : theme.colors.text}
         >
           Feminino
         </AppText>
       </Pressable>
 
       <Pressable
-        style={[
-          styles.option,
-          value === Gender.MALE && styles.optionSelected,
-        ]}
+        style={getOptionStyle(value === Gender.MALE)}
         onPress={() => onChange(Gender.MALE)}
       >
         <AppText
           weight="medium"
-          color={value === Gender.MALE ? theme.colors.white : theme.colors.gray[700]}
+          color={value === Gender.MALE ? theme.colors.white : theme.colors.text}
         >
           Masculino
         </AppText>
@@ -56,13 +62,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: theme.colors.gray[300],
-    backgroundColor: theme.colors.white,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  optionSelected: {
-    backgroundColor: theme.colors.primary[600],
-    borderColor: theme.colors.primary[600],
   },
 })

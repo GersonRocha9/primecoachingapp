@@ -4,11 +4,13 @@ import { Alert, ScrollView, StyleSheet, View } from 'react-native'
 import { Gender } from '@app/types/Gender'
 
 import { useAuth } from '@app/contexts/useAuth'
+import { useTheme } from '@app/contexts/useTheme'
 import Feather from '@expo/vector-icons/Feather'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { AppText } from '@ui/components/AppText'
 import { Button } from '@ui/components/Button'
-import { theme } from '@ui/styles/theme'
+import { ThemeSelector } from '@ui/components/ThemeSelector'
+import { getTheme } from '@ui/styles/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './styles'
 
@@ -29,6 +31,8 @@ export function Home() {
   const [userData, setUserData] = useState<IUserData | null>(null)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const { signOut } = useAuth()
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
 
   useEffect(() => {
     async function loadUserData() {
@@ -88,10 +92,10 @@ export function Home() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <ScrollView contentContainerStyle={homeStyles.content}>
         <View style={homeStyles.header}>
-          <AppText color={theme.colors.gray[900]} size='2xl' weight='bold'>
+          <AppText color={theme.colors.text} size='2xl' weight='bold'>
             Bem-vindo! 👋
           </AppText>
           {userData && (
@@ -101,69 +105,71 @@ export function Home() {
           )}
         </View>
 
+        <ThemeSelector />
+
         {userData && (
           <View style={homeStyles.infoContainer}>
-            <View style={homeStyles.section}>
-              <AppText color={theme.colors.gray[900]} size='lg' weight='semiBold' style={homeStyles.sectionTitle}>
+            <View style={[homeStyles.section, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}>
+              <AppText color={theme.colors.text} size='lg' weight='semiBold' style={[homeStyles.sectionTitle, { borderBottomColor: theme.colors.border }]}>
                 Informações Pessoais
               </AppText>
 
               <View style={homeStyles.infoRow}>
-                <AppText color={theme.colors.gray[600]} size='base'>
+                <AppText color={theme.colors.textSecondary} size='base'>
                   Email:
                 </AppText>
-                <AppText color={theme.colors.gray[900]} size='base' weight='medium'>
+                <AppText color={theme.colors.text} size='base' weight='medium'>
                   {userData.email}
                 </AppText>
               </View>
 
               <View style={homeStyles.infoRow}>
-                <AppText color={theme.colors.gray[600]} size='base'>
+                <AppText color={theme.colors.textSecondary} size='base'>
                   ID do Usuário:
                 </AppText>
-                <AppText color={theme.colors.gray[900]} size='base' weight='medium'>
+                <AppText color={theme.colors.text} size='base' weight='medium'>
                   {userData.id}
                 </AppText>
               </View>
             </View>
 
-            <View style={homeStyles.section}>
-              <AppText color={theme.colors.gray[900]} size='lg' weight='semiBold' style={homeStyles.sectionTitle}>
+            <View style={[homeStyles.section, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}>
+              <AppText color={theme.colors.text} size='lg' weight='semiBold' style={[homeStyles.sectionTitle, { borderBottomColor: theme.colors.border }]}>
                 Dados do Onboarding
               </AppText>
 
               <View style={homeStyles.infoRow}>
-                <AppText color={theme.colors.gray[600]} size='base'>
+                <AppText color={theme.colors.textSecondary} size='base'>
                   Sexo:
                 </AppText>
-                <AppText color={theme.colors.gray[900]} size='base' weight='medium'>
+                <AppText color={theme.colors.text} size='base' weight='medium'>
                   {formatGender(userData.onboardingData?.gender)}
                 </AppText>
               </View>
 
               <View style={homeStyles.infoRow}>
-                <AppText color={theme.colors.gray[600]} size='base'>
+                <AppText color={theme.colors.textSecondary} size='base'>
                   Data de Nascimento:
                 </AppText>
-                <AppText color={theme.colors.gray[900]} size='base' weight='medium'>
+                <AppText color={theme.colors.text} size='base' weight='medium'>
                   {formatDate(userData.onboardingData?.birthDate)}
                 </AppText>
               </View>
 
               <View style={homeStyles.infoRow}>
-                <AppText color={theme.colors.gray[600]} size='base'>
+                <AppText color={theme.colors.textSecondary} size='base'>
                   Altura:
                 </AppText>
-                <AppText color={theme.colors.gray[900]} size='base' weight='medium'>
+                <AppText color={theme.colors.text} size='base' weight='medium'>
                   {userData.onboardingData?.height || 'N/A'} cm
                 </AppText>
               </View>
 
               <View style={homeStyles.infoRow}>
-                <AppText color={theme.colors.gray[600]} size='base'>
+                <AppText color={theme.colors.textSecondary} size='base'>
                   Peso:
                 </AppText>
-                <AppText color={theme.colors.gray[900]} size='base' weight='medium'>
+                <AppText color={theme.colors.text} size='base' weight='medium'>
                   {userData.onboardingData?.weight || 'N/A'} kg
                 </AppText>
               </View>
@@ -187,7 +193,7 @@ export function Home() {
 
         {!userData && (
           <View style={homeStyles.loadingContainer}>
-            <AppText color={theme.colors.gray[500]} size='base'>
+            <AppText color={theme.colors.textSecondary} size='base'>
               Carregando dados do usuário...
             </AppText>
           </View>
@@ -203,24 +209,22 @@ const homeStyles = StyleSheet.create({
     paddingVertical: 24,
   },
   header: {
-    marginBottom: 32,
+    marginBottom: 24,
   },
   infoContainer: {
-    gap: 24,
+    gap: 16,
+    marginTop: 24,
   },
   section: {
-    backgroundColor: theme.colors.white,
     padding: 16,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: theme.colors.gray[200],
     gap: 12,
   },
   sectionTitle: {
     marginBottom: 8,
     paddingBottom: 8,
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.gray[200],
   },
   infoRow: {
     flexDirection: 'row',

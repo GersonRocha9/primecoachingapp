@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 
+import { useTheme } from '@app/contexts/useTheme'
 import Feather from '@expo/vector-icons/Feather'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { AppText } from '@ui/components/AppText'
 import { Button } from '@ui/components/Button'
-import { theme } from '@ui/styles/theme'
+import { getTheme } from '@ui/styles/theme'
 import { useOnboarding } from '../context/useOnboarding'
 import { styles } from '../styles'
 
 export function StartStep() {
   const { nextStep, currentStepConfig } = useOnboarding()
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
   const [userName, setUserName] = useState<string>('visitante')
 
   useEffect(() => {
@@ -48,12 +51,12 @@ export function StartStep() {
         style={styles.header}
         entering={FadeInDown.delay(200).duration(600).damping(15)}
       >
-        <AppText color={theme.colors.gray[900]} size='2xl' weight='medium'>
+        <AppText color={theme.colors.text} size='2xl' weight='medium'>
           Olá 👋 {'\n'}
           {currentStepConfig.title}, <AppText color={theme.colors.primary[600]} size='2xl' weight='medium'>{userName}!</AppText>
         </AppText>
         {currentStepConfig.subtitle && (
-          <AppText color={theme.colors.gray[900]} style={{ lineHeight: 28 }}>
+          <AppText color={theme.colors.textSecondary} style={{ lineHeight: 28 }}>
             {currentStepConfig.subtitle}
           </AppText>
         )}
@@ -64,9 +67,9 @@ export function StartStep() {
         entering={FadeInDown.delay(400).duration(600).damping(15)}
       >
         <Button
-          rightIcon={<Feather name="arrow-right" color={theme.colors.white} size={24} />}
+          rightIcon={<Feather name="arrow-right" color={isDark ? theme.colors.gray[900] : theme.colors.white} size={24} />}
           onPress={nextStep}
-          textColor={theme.colors.white}
+          textColor={isDark ? theme.colors.gray[900] : theme.colors.white}
         >
           Começar
         </Button>

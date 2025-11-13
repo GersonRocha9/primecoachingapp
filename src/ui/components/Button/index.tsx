@@ -1,9 +1,10 @@
 import React from 'react'
 import { ActivityIndicator, Platform, Pressable, View } from 'react-native'
 
-import { theme } from '@ui/styles/theme'
+import { useTheme } from '@app/contexts/useTheme'
+import { getTheme } from '@ui/styles/theme'
 import { AppText } from '../AppText'
-import { buttonStyles, ButtonVariants, styles } from './styles'
+import { getButtonStyles, ButtonVariants, styles } from './styles'
 
 interface IButtonProps extends React.ComponentProps<typeof Pressable>,
   Omit<ButtonVariants, 'disabled'> {
@@ -30,6 +31,9 @@ export function Button({
   ...props
 }: IButtonProps) {
   const disabled = disabledProp || isLoading
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
+  const buttonStyles = getButtonStyles(isDark)
 
   const textColorStyle = textColor ? { color: textColor } : {}
 

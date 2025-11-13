@@ -3,11 +3,12 @@ import { useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 
+import { useTheme } from '@app/contexts/useTheme'
 import Feather from '@expo/vector-icons/Feather'
 import { AppText } from '@ui/components/AppText'
 import { Button } from '@ui/components/Button'
 import { DateInput } from '@ui/components/DateInput'
-import { theme } from '@ui/styles/theme'
+import { getTheme } from '@ui/styles/theme'
 import { useOnboarding } from '../context/useOnboarding'
 import type { OnboardingSchema } from '../schema'
 import { styles } from '../styles'
@@ -15,6 +16,8 @@ import { styles } from '../styles'
 export function BirthDateStep() {
   const { setValue, watch } = useFormContext<OnboardingSchema>()
   const { nextStep, previousStep, currentStepConfig, isFirstStep } = useOnboarding()
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
 
   const birthDate = watch('birthDate')
 
@@ -39,31 +42,26 @@ export function BirthDateStep() {
       const monthNum = parseInt(month, 10)
       const yearNum = parseInt(year, 10)
 
-      // Check if values are valid numbers
       if (isNaN(dayNum) || isNaN(monthNum) || isNaN(yearNum)) {
         setErrorMessage('Por favor, insira apenas números')
         return
       }
 
-      // Check year range
       if (yearNum < 1900 || yearNum > new Date().getFullYear()) {
         setErrorMessage(`O ano deve estar entre 1900 e ${new Date().getFullYear()}`)
         return
       }
 
-      // Check month range
       if (monthNum < 1 || monthNum > 12) {
         setErrorMessage('O mês deve estar entre 1 e 12')
         return
       }
 
-      // Check day range
       if (dayNum < 1 || dayNum > 31) {
         setErrorMessage('O dia deve estar entre 1 e 31')
         return
       }
 
-      // Create date and validate it's a real date
       const newDate = new Date(yearNum, monthNum - 1, dayNum)
 
       if (newDate.getDate() === dayNum &&
@@ -129,11 +127,11 @@ export function BirthDateStep() {
         style={styles.header}
         entering={FadeInDown.delay(200).duration(600).damping(15)}
       >
-        <AppText color={theme.colors.gray[900]} size='2xl' weight='medium'>
+        <AppText color={theme.colors.text} size='2xl' weight='medium'>
           {currentStepConfig.title}
         </AppText>
         {currentStepConfig.subtitle && (
-          <AppText color={theme.colors.gray[600]} size='sm'>
+          <AppText color={theme.colors.textSecondary} size='sm'>
             {currentStepConfig.subtitle}
           </AppText>
         )}
@@ -183,16 +181,16 @@ export function BirthDateStep() {
           <Button
             variant="ghost"
             onPress={previousStep}
-            textColor={theme.colors.gray[600]}
+            textColor={theme.colors.textSecondary}
           >
             Voltar
           </Button>
         )}
         <Button
-          rightIcon={<Feather name="arrow-right" color={theme.colors.white} size={24} />}
+          rightIcon={<Feather name="arrow-right" color={isDark ? theme.colors.gray[900] : theme.colors.white} size={24} />}
           onPress={nextStep}
           disabled={!isDateValid()}
-          textColor={theme.colors.white}
+          textColor={isDark ? theme.colors.gray[900] : theme.colors.white}
         >
           Avançar
         </Button>

@@ -1,5 +1,6 @@
-import { TextInput, StyleSheet, View } from 'react-native'
-import { theme } from '@ui/styles/theme'
+import { useTheme } from '@app/contexts/useTheme'
+import { getTheme } from '@ui/styles/theme'
+import { StyleSheet, TextInput, View } from 'react-native'
 import { AppText } from './AppText'
 
 interface IDateInputProps {
@@ -19,17 +20,27 @@ export function DateInput({
   label,
   keyboardType = 'numeric',
 }: IDateInputProps) {
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
+
   return (
     <View style={styles.container}>
       {label && (
-        <AppText size="sm" color={theme.colors.gray[600]} style={styles.label}>
+        <AppText size="sm" color={theme.colors.textSecondary} style={styles.label}>
           {label}
         </AppText>
       )}
       <TextInput
-        style={styles.input}
+        style={[
+          styles.input,
+          {
+            backgroundColor: isDark ? theme.colors.gray[100] : theme.colors.surface,
+            borderColor: theme.colors.border,
+            color: theme.colors.text,
+          },
+        ]}
         placeholder={placeholder}
-        placeholderTextColor={theme.colors.gray[400]}
+        placeholderTextColor={theme.colors.textSecondary}
         value={value}
         onChangeText={onChangeText}
         maxLength={maxLength}
@@ -49,14 +60,10 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: theme.colors.gray[300],
     borderRadius: 8,
     paddingVertical: 16,
     paddingHorizontal: 16,
     fontSize: 16,
-    fontFamily: theme.fontFamily.sans.regular,
-    color: theme.colors.gray[900],
-    backgroundColor: theme.colors.white,
     textAlign: 'center',
   },
 })

@@ -3,6 +3,7 @@ import { Alert, Pressable, ScrollView, View } from 'react-native'
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 
 import { useAuth } from '@app/contexts/useAuth'
+import { useTheme } from '@app/contexts/useTheme'
 import { Feather } from '@expo/vector-icons'
 import { AppText } from '@ui/components/AppText'
 import { BackgroundHeader } from '@ui/components/BackgroundHeader'
@@ -10,12 +11,14 @@ import { Button } from '@ui/components/Button'
 import { FormGroup } from '@ui/components/FormGroup'
 import { Input } from '@ui/components/Input'
 import { UserIcon } from '@ui/icons'
-import { theme } from '@ui/styles/theme'
+import { getTheme } from '@ui/styles/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './styles'
 
 export function Login() {
   const { signIn } = useAuth()
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -62,7 +65,7 @@ export function Login() {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]} edges={['bottom', 'left', 'right']}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <BackgroundHeader icon={<UserIcon />} />
 
@@ -70,7 +73,7 @@ export function Login() {
           style={[styles.content, animatedStyle]}
         >
           <View style={styles.textContainer}>
-            <AppText color={theme.colors.gray[900]} size='2xl' weight='medium'>
+            <AppText color={theme.colors.text} size='2xl' weight='medium'>
               Acesse o app
             </AppText>
           </View>
@@ -98,7 +101,7 @@ export function Login() {
                   <Feather
                     name={showPassword ? 'eye-off' : 'eye'}
                     size={20}
-                    color={theme.colors.gray[500]}
+                    color={theme.colors.textSecondary}
                   />
                 }
                 onRightIconPress={togglePasswordVisibility}
@@ -108,18 +111,18 @@ export function Login() {
           </View>
 
           <Pressable onPress={handleForgotPassword} style={styles.forgotPasswordContainer}>
-            <AppText color={theme.colors.primary[700]} size='sm' weight='medium'>
+            <AppText color={theme.colors.primary[600]} size='sm' weight='medium'>
               Esqueci minha senha
             </AppText>
           </Pressable>
 
           <View style={styles.buttonContainer}>
             <Button
-              rightIcon={<Feather name="arrow-right" color={theme.colors.white} size={24} />}
+              rightIcon={<Feather name="arrow-right" color={isDark ? theme.colors.gray[900] : theme.colors.white} size={24} />}
               onPress={handleLogin}
               disabled={isLoading}
               isLoading={isLoading}
-              textColor={theme.colors.white}
+              textColor={isDark ? theme.colors.gray[900] : theme.colors.white}
             >
               Entrar
             </Button>

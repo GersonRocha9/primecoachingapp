@@ -1,5 +1,6 @@
 import { TextInput, StyleSheet, View } from 'react-native'
-import { theme } from '@ui/styles/theme'
+import { useTheme } from '@app/contexts/useTheme'
+import { getTheme } from '@ui/styles/theme'
 import { AppText } from './AppText'
 
 interface INumericInputProps {
@@ -21,25 +22,36 @@ export function NumericInput({
   keyboardType = 'numeric',
   suffix,
 }: INumericInputProps) {
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
+  
   return (
     <View style={styles.container}>
       {label && (
-        <AppText size="sm" color={theme.colors.gray[600]} style={styles.label}>
+        <AppText size="sm" color={theme.colors.textSecondary} style={styles.label}>
           {label}
         </AppText>
       )}
-      <View style={styles.inputWrapper}>
+      <View
+        style={[
+          styles.inputWrapper,
+          {
+            borderColor: theme.colors.border,
+            backgroundColor: isDark ? theme.colors.gray[100] : theme.colors.surface,
+          },
+        ]}
+      >
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: theme.colors.text }]}
           placeholder={placeholder}
-          placeholderTextColor={theme.colors.gray[400]}
+          placeholderTextColor={theme.colors.textSecondary}
           value={value}
           onChangeText={onChangeText}
           maxLength={maxLength}
           keyboardType={keyboardType}
         />
         {suffix && (
-          <AppText size="base" color={theme.colors.gray[500]} style={styles.suffix}>
+          <AppText size="base" color={theme.colors.textSecondary} style={styles.suffix}>
             {suffix}
           </AppText>
         )}
@@ -59,17 +71,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: theme.colors.gray[300],
     borderRadius: 8,
-    backgroundColor: theme.colors.white,
     paddingHorizontal: 16,
   },
   input: {
     flex: 1,
     paddingVertical: 16,
     fontSize: 16,
-    fontFamily: theme.fontFamily.sans.regular,
-    color: theme.colors.gray[900],
   },
   suffix: {
     marginLeft: 8,

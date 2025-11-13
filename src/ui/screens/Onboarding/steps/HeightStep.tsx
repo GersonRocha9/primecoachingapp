@@ -3,11 +3,12 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 
+import { useTheme } from '@app/contexts/useTheme'
 import Feather from '@expo/vector-icons/Feather'
 import { AppText } from '@ui/components/AppText'
 import { Button } from '@ui/components/Button'
 import { NumericInput } from '@ui/components/NumericInput'
-import { theme } from '@ui/styles/theme'
+import { getTheme } from '@ui/styles/theme'
 import { useOnboarding } from '../context/useOnboarding'
 import type { OnboardingSchema } from '../schema'
 import { styles } from '../styles'
@@ -15,6 +16,8 @@ import { styles } from '../styles'
 export function HeightStep() {
   const { control, watch } = useFormContext<OnboardingSchema>()
   const { nextStep, previousStep, currentStepConfig, isFirstStep } = useOnboarding()
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
 
   const height = watch('height')
   const [errorMessage, setErrorMessage] = useState('')
@@ -50,11 +53,11 @@ export function HeightStep() {
         style={styles.header}
         entering={FadeInDown.delay(200).duration(600).damping(15)}
       >
-        <AppText color={theme.colors.gray[900]} size='2xl' weight='medium'>
+        <AppText color={theme.colors.text} size='2xl' weight='medium'>
           {currentStepConfig.title}
         </AppText>
         {currentStepConfig.subtitle && (
-          <AppText color={theme.colors.gray[600]} size='sm'>
+          <AppText color={theme.colors.textSecondary} size='sm'>
             {currentStepConfig.subtitle}
           </AppText>
         )}
@@ -64,7 +67,7 @@ export function HeightStep() {
         style={styles.formContainer}
         entering={FadeInDown.delay(300).duration(600).damping(15)}
       >
-        <AppText color={theme.colors.gray[700]} size='base' style={{ marginBottom: 8 }}>
+        <AppText color={theme.colors.textSecondary} size='base' style={{ marginBottom: 8 }}>
           Digite sua altura em centímetros
         </AppText>
 
@@ -102,16 +105,16 @@ export function HeightStep() {
           <Button
             variant="ghost"
             onPress={previousStep}
-            textColor={theme.colors.gray[600]}
+            textColor={theme.colors.textSecondary}
           >
             Voltar
           </Button>
         )}
         <Button
-          rightIcon={<Feather name="arrow-right" color={theme.colors.white} size={24} />}
+          rightIcon={<Feather name="arrow-right" color={isDark ? theme.colors.gray[900] : theme.colors.white} size={24} />}
           onPress={nextStep}
           disabled={!isHeightValid()}
-          textColor={theme.colors.white}
+          textColor={isDark ? theme.colors.gray[900] : theme.colors.white}
         >
           Avançar
         </Button>

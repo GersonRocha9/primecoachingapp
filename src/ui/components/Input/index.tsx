@@ -1,8 +1,9 @@
 import { useState, type ReactNode } from 'react'
 import { NativeSyntheticEvent, Pressable, TextInput, TextInputFocusEventData, TextInputProps, View } from 'react-native'
 
-import { theme } from '@ui/styles/theme'
-import { inputStyles, styles } from './styles'
+import { useTheme } from '@app/contexts/useTheme'
+import { getTheme } from '@ui/styles/theme'
+import { getInputStyles, styles } from './styles'
 
 type BaseTextInputProps = Omit<React.ComponentProps<typeof TextInput>, 'readOnly'>
 
@@ -30,6 +31,9 @@ export function Input({
   ...props
 }: IInputProps) {
   const [isFocused, setIsFocused] = useState(false)
+  const { isDark } = useTheme()
+  const theme = getTheme(isDark)
+  const inputStyles = getInputStyles(isDark)
 
   function handleFocus(event: NativeSyntheticEvent<TextInputFocusEventData>) {
     setIsFocused(true)
@@ -59,8 +63,8 @@ export function Input({
         ]}
       >
         <InputComponent
-          style={[styles.inputWithIcon, style]}
-          placeholderTextColor={theme.colors.gray[500]}
+          style={[styles.inputWithIcon, { color: theme.colors.text }, style]}
+          placeholderTextColor={theme.colors.textSecondary}
           onFocus={handleFocus as any}
           onBlur={handleBlur as any}
           readOnly={disabled}
@@ -83,7 +87,7 @@ export function Input({
         }),
         style,
       ]}
-      placeholderTextColor={theme.colors.gray[500]}
+      placeholderTextColor={theme.colors.textSecondary}
       onFocus={handleFocus as any}
       onBlur={handleBlur as any}
       readOnly={disabled}
