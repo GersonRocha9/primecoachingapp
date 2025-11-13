@@ -6,7 +6,7 @@ import { createVariants, type VariantProps } from '@ui/styles/utils/createVarian
 export const styles = StyleSheet.create({
   wrapper: {
     borderRadius: 8,
-    // overflow: 'hidden',
+    flex: 1,
   },
   contentContainer: {
     flexDirection: 'row',
@@ -28,6 +28,7 @@ export const buttonStyles = createVariants({
         borderWidth: 1,
         borderColor: theme.colors.primary[600],
         borderRadius: 8,
+        fontSize: theme.fontSize.base,
       },
       secondary: {
         backgroundColor: theme.colors.primary[50],
@@ -35,9 +36,11 @@ export const buttonStyles = createVariants({
         borderWidth: 1,
         borderColor: theme.colors.primary[200],
         borderRadius: 8,
+        fontSize: theme.fontSize.base,
       },
       ghost: {
         backgroundColor: 'transparent',
+        fontSize: theme.fontSize.base,
       },
     },
     size: {

@@ -9,6 +9,7 @@ interface IButtonProps extends React.ComponentProps<typeof Pressable>,
   Omit<ButtonVariants, 'disabled'> {
   isLoading?: boolean
   textColor?: string
+  textSize?: 'sm' | 'base' | 'lg'
   leftIcon?: React.ReactElement
   rightIcon?: React.ReactElement
   iconGap?: number
@@ -22,6 +23,7 @@ export function Button({
   style,
   isLoading,
   textColor,
+  textSize = 'lg',
   leftIcon,
   rightIcon,
   iconGap = 8,
@@ -41,7 +43,7 @@ export function Button({
 
   const childEl = (
     typeof children === 'string'
-      ? <AppText weight="medium" style={textColorStyle}>{children}</AppText>
+      ? <AppText weight="medium" size={textSize} style={textColorStyle}>{children}</AppText>
       : typeof children === 'function'
         ? null
         : children
@@ -51,7 +53,11 @@ export function Button({
     <View style={[styles.contentContainer, { gap: iconGap }]}>
       {clonedLeftIcon}
       {childEl}
-      {clonedRightIcon}
+      {isLoading ? (
+        <ActivityIndicator size="small" color={textColor || theme.colors.gray[700]} />
+      ) : (
+        clonedRightIcon
+      )}
     </View>
   )
 
@@ -67,9 +73,7 @@ export function Button({
         disabled={disabled}
         {...props}
       >
-        {!isLoading ? contentWithIcons : (
-          <ActivityIndicator color={theme.colors.black[700]} />
-        )}
+        {contentWithIcons}
       </Pressable>
     </View>
   )
