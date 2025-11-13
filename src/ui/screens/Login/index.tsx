@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Alert, Pressable, ScrollView, View } from 'react-native'
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated'
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 
 import { useAuth } from '@app/contexts/useAuth'
 import { Feather } from '@expo/vector-icons'
@@ -19,6 +19,7 @@ export function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const translateY = useSharedValue(-500)
   const opacity = useSharedValue(0)
@@ -30,6 +31,10 @@ export function Login() {
     })
     opacity.value = withTiming(1, { duration: 700 })
   }, [])
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
+  }
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
@@ -61,7 +66,7 @@ export function Login() {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <BackgroundHeader icon={<UserIcon />} />
 
-        <Animated.View 
+        <Animated.View
           style={[styles.content, animatedStyle]}
         >
           <View style={styles.textContainer}>
@@ -87,8 +92,16 @@ export function Login() {
                 placeholder="••••••••"
                 value={password}
                 onChangeText={setPassword}
-                secureTextEntry
+                secureTextEntry={!showPassword}
                 autoCapitalize="none"
+                rightIcon={
+                  <Feather
+                    name={showPassword ? 'eye-off' : 'eye'}
+                    size={20}
+                    color={theme.colors.gray[500]}
+                  />
+                }
+                onRightIconPress={togglePasswordVisibility}
               />
             </FormGroup>
 

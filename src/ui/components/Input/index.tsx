@@ -1,8 +1,8 @@
-import { theme } from '@ui/styles/theme'
-import { NativeSyntheticEvent, TextInput, TextInputFocusEventData, TextInputProps } from 'react-native'
+import { useState, type ReactNode } from 'react'
+import { NativeSyntheticEvent, Pressable, TextInput, TextInputFocusEventData, TextInputProps, View } from 'react-native'
 
-import { useState } from 'react'
-import { inputStyles } from './styles'
+import { theme } from '@ui/styles/theme'
+import { inputStyles, styles } from './styles'
 
 type BaseTextInputProps = Omit<React.ComponentProps<typeof TextInput>, 'readOnly'>
 
@@ -12,6 +12,8 @@ export interface IInputProps extends BaseTextInputProps {
   InputComponent?: React.ComponentType<TextInputProps>
   ref?: React.Ref<TextInput>
   formatter?: (value: string) => string
+  rightIcon?: ReactNode
+  onRightIconPress?: () => void
 }
 
 export function Input({
@@ -23,6 +25,8 @@ export function Input({
   InputComponent = TextInput,
   onChangeText,
   formatter,
+  rightIcon,
+  onRightIconPress,
   ...props
 }: IInputProps) {
   const [isFocused, setIsFocused] = useState(false)
@@ -41,6 +45,33 @@ export function Input({
     const formattedValue = formatter?.(value) ?? value
 
     onChangeText?.(formattedValue)
+  }
+
+  if (rightIcon) {
+    return (
+      <View
+        style={[
+          inputStyles({
+            status: error ? 'error' : (isFocused ? 'focus' : 'default'),
+            disabled: disabled ? 'true' : 'false',
+          }),
+          styles.inputContainer,
+        ]}
+      >
+        <InputComponent
+          style={[styles.inputWithIcon, style]}
+          placeholderTextColor={theme.colors.gray[500]}
+          onFocus={handleFocus as any}
+          onBlur={handleBlur as any}
+          readOnly={disabled}
+          onChangeText={handleChangeText}
+          {...props}
+        />
+        <Pressable onPress={onRightIconPress} style={styles.iconContainer}>
+          {rightIcon}
+        </Pressable>
+      </View>
+    )
   }
 
   return (

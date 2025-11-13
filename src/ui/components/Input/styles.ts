@@ -1,3 +1,4 @@
+import { StyleSheet } from 'react-native'
 import { theme } from '@ui/styles/theme'
 import { createVariants } from '@ui/styles/utils/createVariants'
 
@@ -41,5 +42,30 @@ export const inputStyles = createVariants({
   defaultVariants: {
     status: 'default',
     disabled: 'false',
+  },
+})
+
+export const styles = StyleSheet.create({
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  },
+  inputWithIcon: {
+    flex: 1,
+    flexShrink: 1,
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    height: 44,
+    paddingHorizontal: 0,
+    color: theme.colors.gray[900],
+    fontSize: 16,
+    fontFamily: theme.fontFamily.sans.regular,
+  },
+  iconContainer: {
+    padding: 4,
+    marginLeft: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
