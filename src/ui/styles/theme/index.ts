@@ -56,11 +56,6 @@ const fontSize = {
   '3xl': 32,
   '4xl': 36,
   '5xl': 40,
-  '6xl': 44,
-  '7xl': 48,
-  '8xl': 52,
-  '9xl': 56,
-  '10xl': 60,
 } as const
 
 export const theme = {

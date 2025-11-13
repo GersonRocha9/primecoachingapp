@@ -3,12 +3,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { AppText } from '@ui/components/AppText'
 import { Logo } from '@ui/components/Logo'
+import { ArrowRightIcon } from '@ui/icons'
 import { theme } from '@ui/styles/theme'
+import { version } from '../../../../package.json'
 import backgroundImage from '../../../assets/background.png'
 import { styles } from './styles'
 
 interface IBackgroundHeaderProps {
   showLogo?: boolean
+  showIcon?: boolean
   logoSize?: number
   showCopyright?: boolean
   minHeight?: number
@@ -16,6 +19,7 @@ interface IBackgroundHeaderProps {
 
 export function BackgroundHeader({
   showLogo = true,
+  showIcon = true,
   logoSize = 135,
   showCopyright = true,
   minHeight = 410,
@@ -34,8 +38,14 @@ export function BackgroundHeader({
       {showCopyright && (
         <View style={[styles.copyrightContainer, { top: top + 16 }]}>
           <AppText color={theme.colors.white} size='xxs'>
-            Copyright © PRIME {actualYear} {'\n'}Todos os direitos reservados V1.01
+            Copyright © PRIME {actualYear} {'\n'}Todos os direitos reservados V{version}
           </AppText>
+        </View>
+      )}
+
+      {showIcon && (
+        <View style={styles.arrowContainer}>
+          <ArrowRightIcon color={theme.colors.primary[600]} />
         </View>
       )}
     </ImageBackground>
