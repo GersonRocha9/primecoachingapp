@@ -1,13 +1,14 @@
 import { useState } from 'react'
-import { Alert, ScrollView, View } from 'react-native'
+import { Alert, Pressable, ScrollView, View } from 'react-native'
 
 import { useAuth } from '@app/contexts/useAuth'
+import { Feather } from '@expo/vector-icons'
 import { AppText } from '@ui/components/AppText'
 import { BackgroundHeader } from '@ui/components/BackgroundHeader'
 import { Button } from '@ui/components/Button'
 import { FormGroup } from '@ui/components/FormGroup'
 import { Input } from '@ui/components/Input'
-import { ArrowRightIcon, UserIcon } from '@ui/icons'
+import { UserIcon } from '@ui/icons'
 import { theme } from '@ui/styles/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './styles'
@@ -34,9 +35,13 @@ export function Login() {
     }
   }
 
+  const handleForgotPassword = () => {
+    Alert.alert('Esqueci minha senha', 'Funcionalidade em desenvolvimento')
+  }
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <BackgroundHeader icon={<UserIcon />} />
 
         <View style={styles.content}>
@@ -47,10 +52,9 @@ export function Login() {
           </View>
 
           <View style={styles.formContainer}>
-            <FormGroup>
+            <FormGroup label="Email">
               <Input
-                label="E-mail"
-                placeholder="Digite seu e-mail"
+                placeholder="seu@email.com"
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -59,25 +63,33 @@ export function Login() {
               />
             </FormGroup>
 
-            <FormGroup>
+            <FormGroup label="Senha">
               <Input
-                label="Senha"
-                placeholder="Digite sua senha"
+                placeholder="••••••••"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
                 autoCapitalize="none"
               />
             </FormGroup>
+
           </View>
+
+          <Pressable onPress={handleForgotPassword} style={styles.forgotPasswordContainer}>
+            <AppText color={theme.colors.primary[700]} size='sm' weight='medium'>
+              Esqueci minha senha
+            </AppText>
+          </Pressable>
 
           <View style={styles.buttonContainer}>
             <Button
-              rightIcon={<ArrowRightIcon />}
+              rightIcon={<Feather name="arrow-right" color={theme.colors.white} size={24} />}
               onPress={handleLogin}
               disabled={isLoading}
+              isLoading={isLoading}
+              textColor={theme.colors.white}
             >
-              {isLoading ? 'Entrando...' : 'Entrar'}
+              Entrar
             </Button>
           </View>
         </View>

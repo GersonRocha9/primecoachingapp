@@ -1,28 +1,32 @@
+import { theme } from '@ui/styles/theme'
 import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.white,
+  },
+  scrollContainer: {
+    flexGrow: 1,
   },
   content: {
     flex: 1,
-    paddingHorizontal: 32,
-    marginTop: 42,
+    paddingHorizontal: 24,
+    marginTop: 32,
   },
   textContainer: {
     width: '100%',
-    gap: 24,
-    marginBottom: 24,
+    marginBottom: 32,
   },
   formContainer: {
-    marginTop: 32,
-    gap: 16,
+    gap: 20,
+  },
+  forgotPasswordContainer: {
+    alignSelf: 'flex-end',
+    paddingVertical: 4,
   },
   buttonContainer: {
-    gap: 12,
     width: '100%',
-    flexDirection: 'column',
-    marginTop: 40,
+    marginTop: 24,
   },
 })
