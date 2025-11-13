@@ -29,4 +29,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   'web': {
     'favicon': './assets/favicon.png',
   },
+  'owner': 'gersonrocha9',
+  'extra': {
+    'eas': {
+      'projectId': 'a8f0e4db-fdbb-4469-8007-86dc152ee9cf',
+    },
+  },
 })
