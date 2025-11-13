@@ -16,7 +16,7 @@ interface IFormGroupProps {
 export function FormGroup({ label, children, error, style }: IFormGroupProps) {
   return (
     <View style={[styles.container, style]}>
-      <AppText weight="medium">{label}</AppText>
+      <AppText weight="medium" color={theme.colors.gray[700]} size='sm'>{label}</AppText>
       {cloneElement(children, { error: !!error })}
       {error && (
         <AppText size="sm" color={theme.colors.red[500]}>{error}</AppText>
