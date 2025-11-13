@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 
 import Feather from '@expo/vector-icons/Feather'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { AppText } from '@ui/components/AppText'
 import { Button } from '@ui/components/Button'
 import { theme } from '@ui/styles/theme'
-import { OnboardingLayout } from '../OnboardingLayout'
 import { useOnboarding } from '../context/useOnboarding'
 import { styles } from '../styles'
 
@@ -44,8 +43,11 @@ export function StartStep() {
   }, [])
 
   return (
-    <OnboardingLayout icon={currentStepConfig.icon}>
-      <View style={styles.header}>
+    <>
+      <Animated.View
+        style={styles.header}
+        entering={FadeInDown.delay(200).duration(600).damping(15)}
+      >
         <AppText color={theme.colors.gray[900]} size='2xl' weight='medium'>
           Olá 👋 {'\n'}
           {currentStepConfig.title}, <AppText color={theme.colors.primary[600]} size='2xl' weight='medium'>{userName}!</AppText>
@@ -55,9 +57,12 @@ export function StartStep() {
             {currentStepConfig.subtitle}
           </AppText>
         )}
-      </View>
+      </Animated.View>
 
-      <View style={styles.buttonContainer}>
+      <Animated.View
+        style={styles.buttonContainer}
+        entering={FadeInDown.delay(400).duration(600).damping(15)}
+      >
         <Button
           rightIcon={<Feather name="arrow-right" color={theme.colors.white} size={24} />}
           onPress={nextStep}
@@ -65,8 +70,8 @@ export function StartStep() {
         >
           Começar
         </Button>
-      </View>
-    </OnboardingLayout>
+      </Animated.View>
+    </>
   )
 }
 

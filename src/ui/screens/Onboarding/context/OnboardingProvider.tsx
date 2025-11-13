@@ -4,7 +4,6 @@ import { useCallback, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { OnboardingContext } from '.'
-import { onboardingNavigation } from '../OnboardingStack'
 import type { OnboardingSchema } from '../schema'
 import { orderedSteps, TOTAL_STEPS } from '../steps'
 import { stepsConfig } from '../stepsConfig'
@@ -40,26 +39,19 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
 
   const nextStep = useCallback(() => {
     const nextStepIndex = currentStepIndex + 1
-    const nextStep = orderedSteps[nextStepIndex]
 
-    if (!nextStep) {
+    if (nextStepIndex >= TOTAL_STEPS) {
       completeOnboarding()
       return
     }
 
-    onboardingNavigation.navigate(nextStep)
     setCurrentStepIndex(nextStepIndex)
   }, [currentStepIndex, completeOnboarding])
 
   const previousStep = useCallback(() => {
-    const previousStepIndex = currentStepIndex - 1
-
-    if (!onboardingNavigation.canGoBack()) {
-      return
+    if (currentStepIndex > 0) {
+      setCurrentStepIndex(currentStepIndex - 1)
     }
-
-    onboardingNavigation.goBack()
-    setCurrentStepIndex(previousStepIndex)
   }, [currentStepIndex])
 
   return (

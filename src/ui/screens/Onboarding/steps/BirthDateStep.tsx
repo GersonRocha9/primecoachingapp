@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 
 import Feather from '@expo/vector-icons/Feather'
 import { AppText } from '@ui/components/AppText'
 import { Button } from '@ui/components/Button'
 import { DateInput } from '@ui/components/DateInput'
 import { theme } from '@ui/styles/theme'
-import { OnboardingLayout } from '../OnboardingLayout'
 import { useOnboarding } from '../context/useOnboarding'
 import type { OnboardingSchema } from '../schema'
 import { styles } from '../styles'
@@ -67,8 +67,8 @@ export function BirthDateStep() {
       const newDate = new Date(yearNum, monthNum - 1, dayNum)
 
       if (newDate.getDate() === dayNum &&
-          newDate.getMonth() === monthNum - 1 &&
-          newDate.getFullYear() === yearNum) {
+        newDate.getMonth() === monthNum - 1 &&
+        newDate.getFullYear() === yearNum) {
         setValue('birthDate', newDate)
         setErrorMessage('')
       } else {
@@ -124,8 +124,11 @@ export function BirthDateStep() {
   }
 
   return (
-    <OnboardingLayout icon={currentStepConfig.icon}>
-      <View style={styles.header}>
+    <>
+      <Animated.View
+        style={styles.header}
+        entering={FadeInDown.delay(200).duration(600).damping(15)}
+      >
         <AppText color={theme.colors.gray[900]} size='2xl' weight='medium'>
           {currentStepConfig.title}
         </AppText>
@@ -134,9 +137,12 @@ export function BirthDateStep() {
             {currentStepConfig.subtitle}
           </AppText>
         )}
-      </View>
+      </Animated.View>
 
-      <View style={styles.formContainer}>
+      <Animated.View
+        style={styles.formContainer}
+        entering={FadeInDown.delay(300).duration(600).damping(15)}
+      >
         <View style={dateStyles.inputContainer}>
           <DateInput
             label="Dia"
@@ -167,9 +173,12 @@ export function BirthDateStep() {
             </AppText>
           </View>
         )}
-      </View>
+      </Animated.View>
 
-      <View style={styles.buttonContainer}>
+      <Animated.View
+        style={styles.buttonContainer}
+        entering={FadeInDown.delay(400).duration(600).damping(15)}
+      >
         {!isFirstStep && (
           <Button
             variant="ghost"
@@ -187,8 +196,8 @@ export function BirthDateStep() {
         >
           Avançar
         </Button>
-      </View>
-    </OnboardingLayout>
+      </Animated.View>
+    </>
   )
 }
 
