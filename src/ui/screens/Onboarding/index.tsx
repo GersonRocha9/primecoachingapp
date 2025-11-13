@@ -1,14 +1,14 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BackgroundHeader } from '@ui/components/BackgroundHeader'
 import { theme } from '@ui/styles/theme'
 import { OnboardingProvider } from './context/OnboardingProvider'
 import { useOnboarding } from './context/useOnboarding'
-import { onboardingSchema } from './schema'
+import { onboardingSchema, type OnboardingSchema } from './schema'
 import { BirthDateStep } from './steps/BirthDateStep'
 import { GenderStep } from './steps/GenderStep'
 import { HeightStep } from './steps/HeightStep'
@@ -61,8 +61,8 @@ function OnboardingContent() {
 }
 
 export function Onboarding() {
-  const form = useForm({
-    resolver: zodResolver(onboardingSchema),
+  const form = useForm<OnboardingSchema>({
+    resolver: zodResolver(onboardingSchema as any),
     defaultValues: {
       gender: undefined,
       birthDate: undefined,
