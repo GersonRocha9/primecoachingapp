@@ -16,6 +16,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   'ios': {
     'supportsTablet': true,
+    'bundleIdentifier': 'com.gersonrocha9.primecoachingapp',
   },
   'android': {
     'adaptiveIcon': {
@@ -25,6 +26,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'softwareKeyboardLayoutMode': 'pan',
     'edgeToEdgeEnabled': true,
     'predictiveBackGestureEnabled': false,
+    'package': 'com.gersonrocha9.primecoachingapp',
   },
   'web': {
     'favicon': './assets/favicon.png',
