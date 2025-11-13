@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import {
   SpaceGrotesk_400Regular,
@@ -8,7 +8,7 @@ import {
   SpaceGrotesk_700Bold,
   useFonts,
 } from '@expo-google-fonts/space-grotesk'
-import { theme } from './ui/styles/theme'
+import { AppText } from '@ui/components/AppText'
 
 export function App() {
   const [isFontsLoaded] = useFonts({
@@ -24,10 +24,10 @@ export function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontFamily: theme.fontFamily.sans.regular }}>Prime Coaching App</Text>
-      <Text style={{ fontFamily: theme.fontFamily.sans.medium }}>Prime Coaching App</Text>
-      <Text style={{ fontFamily: theme.fontFamily.sans.semiBold }}>Prime Coaching App</Text>
-      <Text style={{ fontFamily: theme.fontFamily.sans.bold }}>Prime Coaching App</Text>
+      <AppText family='sans' weight='regular'>Prime Coaching App</AppText>
+      <AppText family='sans' weight='medium'>Prime Coaching App</AppText>
+      <AppText family='sans' weight='semiBold'>Prime Coaching App</AppText>
+      <AppText family='sans' weight='bold'>Prime Coaching App</AppText>
       <StatusBar style="auto" />
     </View>
   )
