@@ -30,8 +30,6 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
 
       await AsyncStorage.setItem('onboarding_complete', 'true')
 
-      // The RootStack will automatically detect the change and navigate to App
-      // No need to manually reset navigation
     } catch (error) {
       console.error('Failed to complete onboarding:', error)
     }

@@ -64,7 +64,6 @@ export function Home() {
           onPress: async () => {
             setIsLoggingOut(true)
             try {
-              // Small delay for better UX
               await new Promise(resolve => setTimeout(resolve, 500))
               await signOut()
             } catch {
@@ -79,9 +78,7 @@ export function Home() {
 
   const formatDate = (dateString: string | undefined) => {
     if (!dateString) { return 'N/A' }
-    // Parse the ISO string and adjust for timezone to avoid date shift
     const date = new Date(dateString)
-    // Add timezone offset to get the correct local date
     const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000)
     return localDate.toLocaleDateString('pt-BR')
   }

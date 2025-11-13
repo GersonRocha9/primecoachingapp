@@ -3,8 +3,8 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 
-import { AuthTokensManager } from '@app/lib/AuthTokensManager'
 import { useTheme } from '@app/contexts/useTheme'
+import { AuthTokensManager } from '@app/lib/AuthTokensManager'
 import Feather from '@expo/vector-icons/Feather'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { AppText } from '@ui/components/AppText'
@@ -25,7 +25,6 @@ export function WeightStep() {
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  // Validate weight when it changes
   useEffect(() => {
     if (weight && weight !== '') {
       const weightNum = parseFloat(weight)
@@ -58,7 +57,6 @@ export function WeightStep() {
       setIsLoading(true)
 
       try {
-        // Get the real user data from currentUser (set during login)
         let userData = null
         try {
           const currentUserStr = await AsyncStorage.getItem('currentUser')
@@ -66,10 +64,8 @@ export function WeightStep() {
             userData = JSON.parse(currentUserStr)
           }
         } catch {
-          // Ignore error
         }
 
-        // If no current user, try loggedInUser
         if (!userData) {
           try {
             const loggedInUserStr = await AsyncStorage.getItem('loggedInUser')
@@ -77,11 +73,9 @@ export function WeightStep() {
               userData = JSON.parse(loggedInUserStr)
             }
           } catch {
-            // Ignore error
           }
         }
 
-        // Fallback to defaults if no user data found
         if (!userData) {
           userData = {
             id: Date.now().toString(),
@@ -90,7 +84,6 @@ export function WeightStep() {
           }
         }
 
-        // Update user data with onboarding information
         const updatedUserData = {
           ...userData,
           onboardingData: {
@@ -158,14 +151,11 @@ export function WeightStep() {
               placeholder="Ex.: 78kg"
               value={value}
               onChangeText={(text) => {
-                // Allow decimal numbers for weight
                 const numericText = text.replace(/[^0-9.]/g, '')
-                // Prevent multiple decimal points
                 const parts = numericText.split('.')
                 if (parts.length > 2) {
                   return
                 }
-                // Limit to one decimal place
                 if (parts.length === 2 && parts[1].length > 1) {
                   onChange(parts[0] + '.' + parts[1].substring(0, 1))
                 } else {

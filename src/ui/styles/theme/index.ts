@@ -115,7 +115,6 @@ export const darkTheme = {
   fontSize,
 } as const
 
-// Legacy export for backward compatibility
 export const theme = lightTheme
 
 export function getTheme(isDark: boolean) {
