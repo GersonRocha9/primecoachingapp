@@ -1,4 +1,5 @@
 import { ScrollView, View } from 'react-native'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 
 import type { AuthStackNavigationProps } from '@app/navigation/AuthStack'
 import { useNavigation } from '@react-navigation/native'
@@ -16,10 +17,13 @@ export function Greetings() {
   return (
     <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
       <ScrollView>
-        <BackgroundHeader icon={<UserIcon />} />
+        <BackgroundHeader icon={<UserIcon />} animated />
 
         <View style={styles.content}>
-          <View style={styles.textContainer}>
+          <Animated.View 
+            style={styles.textContainer}
+            entering={FadeInDown.delay(400).duration(600).springify()}
+          >
             <AppText color={theme.colors.gray[900]} size='2xl' weight='medium'>
               Seja{'\n'}bem-vindo!
             </AppText>
@@ -27,9 +31,12 @@ export function Greetings() {
             <AppText color={theme.colors.gray[900]}>
               Para prosseguir, selecione o seu tipo {'\n'}de acesso
             </AppText>
-          </View>
+          </Animated.View>
 
-          <View style={styles.buttonContainer}>
+          <Animated.View 
+            style={styles.buttonContainer}
+            entering={FadeInDown.delay(600).duration(600).springify()}
+          >
             <Button
               variant='secondary'
               textColor='#3D96FF'
@@ -44,7 +51,7 @@ export function Greetings() {
             >
               Sou aluno
             </Button>
-          </View>
+          </Animated.View>
         </View>
       </ScrollView>
     </SafeAreaView>

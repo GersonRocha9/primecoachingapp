@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Alert, Pressable, ScrollView, View } from 'react-native'
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated'
 
 import { useAuth } from '@app/contexts/useAuth'
 import { Feather } from '@expo/vector-icons'
@@ -18,6 +19,22 @@ export function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  const translateY = useSharedValue(-500)
+  const opacity = useSharedValue(0)
+
+  useEffect(() => {
+    translateY.value = withTiming(0, {
+      duration: 700,
+      easing: Easing.out(Easing.cubic),
+    })
+    opacity.value = withTiming(1, { duration: 700 })
+  }, [])
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+    opacity: opacity.value,
+  }))
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -44,7 +61,9 @@ export function Login() {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <BackgroundHeader icon={<UserIcon />} />
 
-        <View style={styles.content}>
+        <Animated.View 
+          style={[styles.content, animatedStyle]}
+        >
           <View style={styles.textContainer}>
             <AppText color={theme.colors.gray[900]} size='2xl' weight='medium'>
               Acesse o app
@@ -92,7 +111,7 @@ export function Login() {
               Entrar
             </Button>
           </View>
-        </View>
+        </Animated.View>
       </ScrollView>
     </SafeAreaView>
   )

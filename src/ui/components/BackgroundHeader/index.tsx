@@ -1,5 +1,7 @@
 import { ImageBackground, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
+import { useEffect } from 'react'
 
 import { AppText } from '@ui/components/AppText'
 import { Logo } from '@ui/components/Logo'
@@ -15,7 +17,10 @@ interface IBackgroundHeaderProps {
   logoSize?: number
   showCopyright?: boolean
   minHeight?: number
+  animated?: boolean
 }
+
+const AnimatedImageBackground = Animated.createAnimatedComponent(ImageBackground)
 
 export function BackgroundHeader({
   showLogo = true,
@@ -23,14 +28,32 @@ export function BackgroundHeader({
   logoSize = 135,
   showCopyright = true,
   minHeight = 410,
+  animated = false,
 }: IBackgroundHeaderProps) {
   const { top } = useSafeAreaInsets()
   const actualYear = new Date().getFullYear()
+  
+  const translateY = useSharedValue(animated ? 600 : 0)
+
+  useEffect(() => {
+    if (animated) {
+      translateY.value = withSpring(0, {
+        damping: 20,
+        stiffness: 90,
+      })
+    }
+  }, [animated])
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+  }))
+
+  const ImageComponent = animated ? AnimatedImageBackground : ImageBackground
 
   return (
-    <ImageBackground
+    <ImageComponent
       source={backgroundImage}
-      style={[styles.container, { minHeight }]}
+      style={[styles.container, { minHeight }, animated && animatedStyle]}
       resizeMode="cover"
     >
       {showLogo && <Logo width={logoSize} height={logoSize} />}
@@ -48,7 +71,7 @@ export function BackgroundHeader({
           {icon}
         </View>
       )}
-    </ImageBackground>
+    </ImageComponent>
   )
 }
 
