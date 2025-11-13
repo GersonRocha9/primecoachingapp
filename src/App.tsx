@@ -10,6 +10,8 @@ import {
 } from '@expo-google-fonts/space-grotesk'
 import { AppText } from '@ui/components/AppText'
 import { Button } from '@ui/components/Button'
+import { FormGroup } from '@ui/components/FormGroup'
+import { Input } from '@ui/components/Input'
 import { ArrowRightIcon } from '@ui/icons/ArrowRight'
 
 export function App() {
@@ -47,6 +49,14 @@ export function App() {
           Sou aluno
         </Button>
       </View>
+
+      <View style={styles.formGroupContainer}>
+        <FormGroup label="Email">
+          <Input
+            placeholder='Digite seu e-mail'
+          />
+        </FormGroup>
+      </View>
       <StatusBar style="auto" />
     </View>
   )
@@ -60,6 +70,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
+    paddingHorizontal: 32,
+    gap: 12,
+    width: '100%',
+    marginTop: 24,
+    flexDirection: 'column',
+  },
+  formGroupContainer: {
     paddingHorizontal: 32,
     gap: 12,
     width: '100%',

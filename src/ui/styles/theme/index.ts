@@ -31,6 +31,9 @@ const colors = {
     900: '#101828',
     950: '#0C111D',
   },
+  red: {
+    500: '#F04438',
+  },
 } as const
 
 const fontFamily = {
