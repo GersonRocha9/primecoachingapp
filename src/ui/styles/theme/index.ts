@@ -46,6 +46,7 @@ const fontFamily = {
 } as const
 
 const fontSize = {
+  xxs: 6,
   xs: 12,
   sm: 14,
   base: 16,
@@ -53,6 +54,13 @@ const fontSize = {
   xl: 24,
   '2xl': 28,
   '3xl': 32,
+  '4xl': 36,
+  '5xl': 40,
+  '6xl': 44,
+  '7xl': 48,
+  '8xl': 52,
+  '9xl': 56,
+  '10xl': 60,
 } as const
 
 export const theme = {
