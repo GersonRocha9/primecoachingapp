@@ -1,12 +1,12 @@
+import { useEffect, type ReactNode } from 'react'
 import { ImageBackground, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
-import { useEffect } from 'react'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { AppText } from '@ui/components/AppText'
 import { Logo } from '@ui/components/Logo'
 import { theme } from '@ui/styles/theme'
-import type { ReactNode } from 'react'
+
 import { version } from '../../../../package.json'
 import backgroundImage from '../../../assets/background.png'
 import { styles } from './styles'
@@ -32,15 +32,12 @@ export function BackgroundHeader({
 }: IBackgroundHeaderProps) {
   const { top } = useSafeAreaInsets()
   const actualYear = new Date().getFullYear()
-  
+
   const translateY = useSharedValue(animated ? 600 : 0)
 
   useEffect(() => {
     if (animated) {
-      translateY.value = withSpring(0, {
-        damping: 20,
-        stiffness: 90,
-      })
+      translateY.value = withSpring(0)
     }
   }, [animated])
 
