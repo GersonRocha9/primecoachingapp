@@ -1,19 +1,72 @@
-import { ScrollView } from 'react-native'
+import { useEffect, useState } from 'react'
+import { View } from 'react-native'
 
+import Feather from '@expo/vector-icons/Feather'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { AppText } from '@ui/components/AppText'
+import { Button } from '@ui/components/Button'
 import { theme } from '@ui/styles/theme'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { styles } from '../../Home/styles'
+import { OnboardingLayout } from '../OnboardingLayout'
+import { useOnboarding } from '../context/useOnboarding'
+import { styles } from '../styles'
 
 export function StartStep() {
+  const { nextStep, currentStepConfig } = useOnboarding()
+  const [userName, setUserName] = useState<string>('visitante')
+
+  useEffect(() => {
+    async function loadUserName() {
+      try {
+        const currentUserData = await AsyncStorage.getItem('currentUser')
+        if (currentUserData) {
+          const userData = JSON.parse(currentUserData)
+          if (userData.name) {
+            const firstName = userData.name.split(' ')[0]
+            setUserName(firstName)
+            return
+          }
+        }
+
+        const loggedInUser = await AsyncStorage.getItem('loggedInUser')
+        if (loggedInUser) {
+          const userData = JSON.parse(loggedInUser)
+          if (userData.name) {
+            const firstName = userData.name.split(' ')[0]
+            setUserName(firstName)
+          }
+        }
+      } catch (error) {
+        console.error('Error loading user name:', error)
+      }
+    }
+
+    loadUserName()
+  }, [])
+
   return (
-    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
-      <ScrollView>
+    <OnboardingLayout icon={currentStepConfig.icon}>
+      <View style={styles.header}>
         <AppText color={theme.colors.gray[900]} size='2xl' weight='medium'>
-          Start Step
+          Olá 👋 {'\n'}
+          {currentStepConfig.title}, <AppText color={theme.colors.primary[600]} size='2xl' weight='medium'>{userName}!</AppText>
         </AppText>
-      </ScrollView>
-    </SafeAreaView>
+        {currentStepConfig.subtitle && (
+          <AppText color={theme.colors.gray[900]} style={{ lineHeight: 28 }}>
+            {currentStepConfig.subtitle}
+          </AppText>
+        )}
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <Button
+          rightIcon={<Feather name="arrow-right" color={theme.colors.white} size={24} />}
+          onPress={nextStep}
+          textColor={theme.colors.white}
+        >
+          Começar
+        </Button>
+      </View>
+    </OnboardingLayout>
   )
 }
 
