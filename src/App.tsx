@@ -9,6 +9,8 @@ import {
   useFonts,
 } from '@expo-google-fonts/space-grotesk'
 import { AppText } from '@ui/components/AppText'
+import { Button } from '@ui/components/Button'
+import { ArrowRightIcon } from '@ui/icons/ArrowRight'
 
 export function App() {
   const [isFontsLoaded] = useFonts({
@@ -24,10 +26,27 @@ export function App() {
 
   return (
     <View style={styles.container}>
-      <AppText family='sans' weight='regular'>Prime Coaching App</AppText>
-      <AppText family='sans' weight='medium'>Prime Coaching App</AppText>
-      <AppText family='sans' weight='semiBold'>Prime Coaching App</AppText>
-      <AppText family='sans' weight='bold'>Prime Coaching App</AppText>
+      <AppText weight='regular'>Prime Coaching App</AppText>
+      <AppText weight='medium'>Prime Coaching App</AppText>
+      <AppText weight='semiBold'>Prime Coaching App</AppText>
+      <AppText weight='bold'>Prime Coaching App</AppText>
+
+      <View style={styles.buttonContainer}>
+        <Button textColor='#fff' rightIcon={<ArrowRightIcon />}>Entrar</Button>
+        <Button variant='ghost' textColor='#000'>Voltar</Button>
+        <Button
+          variant='secondary'
+          textColor='#3D96FF'
+        >
+          Sou profissional
+        </Button>
+        <Button
+          variant='secondary'
+          textColor='#3D96FF'
+        >
+          Sou aluno
+        </Button>
+      </View>
       <StatusBar style="auto" />
     </View>
   )
@@ -39,5 +58,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  buttonContainer: {
+    paddingHorizontal: 32,
+    gap: 12,
+    width: '100%',
+    marginTop: 24,
+    flexDirection: 'column',
   },
 })
