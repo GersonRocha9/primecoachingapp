@@ -4,13 +4,13 @@ import { useColorScheme } from 'react-native'
 
 type ThemeMode = 'light' | 'dark' | 'system'
 
-interface ThemeContextData {
+interface IThemeContextData {
   mode: ThemeMode
   isDark: boolean
   setThemeMode: (mode: ThemeMode) => void
 }
 
-export const ThemeContext = createContext<ThemeContextData>({} as ThemeContextData)
+export const ThemeContext = createContext<IThemeContextData>({} as IThemeContextData)
 
 const THEME_STORAGE_KEY = '@primecoaching:theme'
 

@@ -1,4 +1,3 @@
-import { theme } from '@ui/styles/theme'
 import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({

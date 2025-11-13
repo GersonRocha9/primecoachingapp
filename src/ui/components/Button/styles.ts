@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-import { getTheme, lightTheme } from '@ui/styles/theme'
+import { getTheme } from '@ui/styles/theme'
 import { createVariants, type VariantProps } from '@ui/styles/utils/createVariants'
 
 export const styles = StyleSheet.create({
@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
 
 export const getButtonStyles = (isDark: boolean) => {
   const theme = getTheme(isDark)
-  
+
   return createVariants({
     base: {
       alignItems: 'center',

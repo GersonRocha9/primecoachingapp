@@ -1,6 +1,6 @@
-import { TextInput, StyleSheet, View } from 'react-native'
 import { useTheme } from '@app/contexts/useTheme'
 import { getTheme } from '@ui/styles/theme'
+import { StyleSheet, TextInput, View } from 'react-native'
 import { AppText } from './AppText'
 
 interface INumericInputProps {
@@ -24,7 +24,7 @@ export function NumericInput({
 }: INumericInputProps) {
   const { isDark } = useTheme()
   const theme = getTheme(isDark)
-  
+
   return (
     <View style={styles.container}>
       {label && (
