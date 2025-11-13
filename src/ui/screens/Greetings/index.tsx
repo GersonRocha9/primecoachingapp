@@ -1,5 +1,7 @@
 import { ScrollView, View } from 'react-native'
 
+import type { AuthStackNavigationProps } from '@app/navigation/AuthStack'
+import { useNavigation } from '@react-navigation/native'
 import { AppText } from '@ui/components/AppText'
 import { BackgroundHeader } from '@ui/components/BackgroundHeader'
 import { Button } from '@ui/components/Button'
@@ -9,6 +11,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './styles'
 
 export function Greetings() {
+  const navigation = useNavigation<AuthStackNavigationProps>()
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
       <ScrollView>
@@ -16,7 +20,7 @@ export function Greetings() {
 
         <View style={styles.content}>
           <View style={styles.textContainer}>
-            <AppText color={theme.colors.gray[900]} size='5xl' weight='medium'>
+            <AppText color={theme.colors.gray[900]} size='2xl' weight='medium'>
               Seja{'\n'}bem-vindo!
             </AppText>
 
@@ -29,12 +33,14 @@ export function Greetings() {
             <Button
               variant='secondary'
               textColor='#3D96FF'
+              onPress={() => navigation.navigate('Login')}
             >
               Sou profissional
             </Button>
             <Button
               variant='secondary'
               textColor='#3D96FF'
+              onPress={() => navigation.navigate('Login')}
             >
               Sou aluno
             </Button>

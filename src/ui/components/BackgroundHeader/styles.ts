@@ -13,10 +13,10 @@ export const styles = StyleSheet.create({
   },
   iconContainer: {
     position: 'absolute',
-    bottom: -32,
+    bottom: -16,
     left: 32,
     backgroundColor: theme.colors.primary[50],
-    padding: 24,
+    padding: 16,
     borderRadius: 999,
   },
 })

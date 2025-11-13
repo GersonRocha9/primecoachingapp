@@ -7,7 +7,7 @@ interface IUserIconProps {
 }
 
 export function UserIcon({
-  size = 32,
+  size = 24,
   color = theme.colors.primary[600],
 }: IUserIconProps) {
   return (

@@ -53,9 +53,6 @@ const fontSize = {
   lg: 20,
   xl: 24,
   '2xl': 28,
-  '3xl': 32,
-  '4xl': 36,
-  '5xl': 40,
 } as const
 
 export const theme = {
