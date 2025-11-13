@@ -5,12 +5,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  logoContainer: {
-    width: '100%',
-    minHeight: 410,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   content: {
     flex: 1,
     paddingHorizontal: 32,
@@ -25,16 +19,5 @@ export const styles = StyleSheet.create({
     gap: 12,
     width: '100%',
     flexDirection: 'column',
-  },
-  formGroupContainer: {
-    paddingHorizontal: 32,
-    gap: 12,
-    width: '100%',
-    marginTop: 24,
-    flexDirection: 'column',
-  },
-  copyrightContainer: {
-    position: 'absolute',
-    right: 32,
   },
 })
