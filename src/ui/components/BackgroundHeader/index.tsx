@@ -4,13 +4,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AppText } from '@ui/components/AppText'
 import { Logo } from '@ui/components/Logo'
 import { theme } from '@ui/styles/theme'
+import type { ReactNode } from 'react'
 import { version } from '../../../../package.json'
 import backgroundImage from '../../../assets/background.png'
 import { styles } from './styles'
 
 interface IBackgroundHeaderProps {
   showLogo?: boolean
-  icon?: React.ReactElement
+  icon?: ReactNode
   logoSize?: number
   showCopyright?: boolean
   minHeight?: number
