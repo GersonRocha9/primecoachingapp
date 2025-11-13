@@ -2,22 +2,17 @@
   "users": [
     {
       "id": "user_001",
-      "name": "João Silva",
-      "email": "joao@example.com",
+      "name": "Guilherme",
+      "email": "guilherme@prime.com",
       "password": "senha123",
       "role": "student",
       "profileCompleted": true,
-      "onboardingData": {
-        "gender": "MALE",
-        "birthDate": "1990-05-15",
-        "height": "175",
-        "weight": "75"
-      }
+      "onboardingData": null
     },
     {
       "id": "user_002",
-      "name": "Maria Santos",
-      "email": "maria@example.com",
+      "name": "Letícia Silva",
+      "email": "maria@prime.com",
       "password": "senha456",
       "role": "professional",
       "profileCompleted": true,
@@ -39,9 +34,9 @@
     },
     {
       "id": "user_004",
-      "name": "Ana Oliveira",
-      "email": "ana@example.com",
-      "password": "senha321",
+      "name": "Beto Queiroz",
+      "email": "beto@prime.com",
+      "password": "prime123",
       "role": "professional",
       "profileCompleted": false,
       "onboardingData": null
@@ -49,7 +44,7 @@
     {
       "id": "demo",
       "name": "Demo User",
-      "email": "demo@example.com",
+      "email": "demo@prime.com",
       "password": "demo",
       "role": "student",
       "profileCompleted": false,
