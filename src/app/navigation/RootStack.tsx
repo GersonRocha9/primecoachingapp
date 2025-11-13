@@ -49,6 +49,24 @@ export function RootStack() {
     }
   }, [signedIn])
 
+  // Poll for onboarding completion when user is on onboarding screen
+  useEffect(() => {
+    if (signedIn && hasCompletedOnboarding === false) {
+      const interval = setInterval(async () => {
+        try {
+          const onboardingComplete = await AsyncStorage.getItem('onboarding_complete')
+          if (onboardingComplete === 'true') {
+            setHasCompletedOnboarding(true)
+          }
+        } catch {
+          // Ignore errors during polling
+        }
+      }, 1000) // Check every second
+
+      return () => clearInterval(interval)
+    }
+  }, [signedIn, hasCompletedOnboarding])
+
   if (signedIn && hasCompletedOnboarding === null) {
     return null
   }
