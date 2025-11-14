@@ -178,7 +178,7 @@ pnpm android
 - `pnpm ios` - Executa no iOS Simulator
 - `pnpm android` - Executa no Android Emulator
 - `pnpm lint` - Executa o linter
-- `pnpm format` - Formata o código
+- `pnpm lint:fix` - Formata o código
 
 ## 🔄 EAS Workflows
 
