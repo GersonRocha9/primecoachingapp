@@ -180,6 +180,22 @@ pnpm android
 - `pnpm lint` - Executa o linter
 - `pnpm format` - Formata o código
 
+## 🔄 EAS Workflows
+
+O projeto utiliza **EAS Workflows** para automação de CI/CD no Expo Application Services. Os workflows estão configurados na pasta `.eas/workflows/`:
+
+### 📋 CI - Integração Contínua (`ci.yml`)
+Executa automaticamente a cada push na branch `main`:
+- ✅ **TypeScript Compiler** - Verifica erros de tipagem (`tsc --noEmit`)
+- ✅ **ESLint** - Analisa qualidade do código e padrões estabelecidos
+
+### 🚀 CD - Deploy Contínuo (`cd.yml`)
+Cria builds de preview automaticamente a cada push na branch `main`:
+- 📱 **Build Android** - Gera APK/AAB de preview para Android
+- 🍎 **Build iOS** - Gera IPA de preview para iOS
+
+Esses workflows garantem que o código mantém a qualidade e que builds de preview estão sempre disponíveis para testes.
+
 ## 🔑 Credenciais de Teste
 
 O app utiliza dados mockados para desenvolvimento. Você pode usar as seguintes credenciais:
